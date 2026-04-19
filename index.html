@@ -1,0 +1,1463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Intro to Cybersecurity & AI for FinTech — Terra新云</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/monokai.css">
+  <style>
+    :root {
+      --accent: #6366f1;
+      --accent-light: #818cf8;
+      --accent-dark: #4f46e5;
+      --bg-primary: #0a0a0f;
+      --bg-secondary: #12121a;
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255,255,255,0.7);
+      --text-muted: rgba(255,255,255,0.5);
+      --success: #28a745;
+      --warning: #ffc107;
+      --error: #dc3545;
+      --gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%);
+    }
+
+    .reveal {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 32px;
+      color: var(--text-primary);
+    }
+    .reveal .slides { text-align: left; }
+    .reveal .slides section { padding: 40px 60px; }
+
+    /* Backgrounds */
+    .reveal .slide-background { background: var(--bg-primary); }
+    .reveal section[data-bg="gradient"] { background: var(--gradient); }
+
+    /* Typography */
+    .reveal h1, .reveal h2, .reveal h3, .reveal h4 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      text-transform: none;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+    .reveal h1 { font-size: 2.4em; }
+    .reveal h2 { font-size: 1.6em; color: var(--accent-light); margin-bottom: 0.6em; }
+    .reveal h3 { font-size: 1.1em; color: var(--accent); margin-bottom: 0.5em; }
+    .reveal p { color: var(--text-secondary); line-height: 1.6; margin-bottom: 0.6em; font-size: 0.85em; }
+    .reveal li { color: var(--text-secondary); line-height: 1.5; margin-bottom: 0.35em; font-size: 0.8em; }
+    .reveal ul { list-style: none; padding-left: 0; }
+    .reveal ul li::before { content: "▸ "; color: var(--accent); font-weight: 700; }
+    .reveal ul ul li::before { content: "· "; color: var(--text-muted); }
+    .reveal ol li::before { content: none; }
+    .reveal ol { padding-left: 1.2em; }
+    .reveal ol li { list-style: decimal; }
+    .reveal strong { color: var(--text-primary); font-weight: 600; }
+    .reveal em { color: var(--accent-light); font-style: normal; }
+    .reveal code {
+      background: rgba(99,102,241,0.15);
+      color: var(--accent-light);
+      padding: 0.15em 0.4em;
+      border-radius: 4px;
+      font-size: 0.85em;
+      font-family: 'Geist Mono', 'Fira Code', monospace;
+    }
+    .reveal pre code {
+      background: var(--bg-secondary);
+      padding: 1em;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.08);
+      font-size: 0.65em;
+      line-height: 1.5;
+    }
+    .reveal a { color: var(--accent-light); text-decoration: underline; }
+
+    /* Logo */
+    .logo {
+      position: fixed;
+      bottom: 20px;
+      left: 30px;
+      height: 24px;
+      opacity: 0.5;
+      z-index: 100;
+    }
+
+    /* Title slide */
+    .title-slide { text-align: center !important; }
+    .title-slide h1 {
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.3em;
+    }
+    .title-slide .subtitle {
+      font-size: 1.1em;
+      color: var(--text-secondary);
+      margin-bottom: 1.5em;
+    }
+    .title-slide .meta {
+      font-size: 0.6em;
+      color: var(--text-muted);
+    }
+
+    /* Section divider */
+    .section-divider {
+      text-align: center !important;
+      display: flex !important;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .section-divider .module-num {
+      font-size: 0.6em;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      margin-bottom: 0.5em;
+    }
+    .section-divider h2 {
+      font-size: 2em;
+      color: var(--text-primary);
+      margin-bottom: 0.3em;
+    }
+    .section-divider .duration {
+      font-size: 0.7em;
+      color: var(--text-muted);
+    }
+
+    /* Cards / Boxes */
+    .card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 1em 1.2em;
+      margin: 0.5em 0;
+    }
+    .card h3 { margin-top: 0; }
+
+    /* Grid layouts */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1em; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.8em; }
+    .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 0.8em; }
+
+    /* Stat boxes */
+    .stat {
+      text-align: center;
+      padding: 0.8em;
+      background: rgba(99,102,241,0.08);
+      border: 1px solid rgba(99,102,241,0.2);
+      border-radius: 10px;
+    }
+    .stat .number {
+      font-size: 1.8em;
+      font-weight: 700;
+      color: var(--accent-light);
+      display: block;
+    }
+    .stat .label {
+      font-size: 0.6em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Badge */
+    .badge {
+      display: inline-block;
+      padding: 0.15em 0.6em;
+      border-radius: 4px;
+      font-size: 0.65em;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .badge-critical { background: rgba(220,53,69,0.2); color: #dc3545; }
+    .badge-high { background: rgba(255,193,7,0.2); color: #ffc107; }
+    .badge-medium { background: rgba(99,102,241,0.2); color: #818cf8; }
+    .badge-low { background: rgba(40,167,69,0.2); color: #28a745; }
+    .badge-accent { background: rgba(99,102,241,0.2); color: #818cf8; }
+
+    /* Highlight box */
+    .highlight-box {
+      background: linear-gradient(135deg, rgba(99,102,241,0.1), rgba(139,92,246,0.1));
+      border-left: 4px solid var(--accent);
+      padding: 0.8em 1.2em;
+      border-radius: 0 10px 10px 0;
+      margin: 0.8em 0;
+    }
+
+    /* Two column with visual */
+    .split { display: flex; gap: 2em; align-items: flex-start; }
+    .split .left { flex: 1; }
+    .split .right { flex: 1; }
+
+    /* Table styling */
+    .reveal table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.7em;
+      margin: 0.5em 0;
+    }
+    .reveal table th {
+      background: rgba(99,102,241,0.15);
+      color: var(--accent-light);
+      padding: 0.6em 0.8em;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 2px solid rgba(99,102,241,0.3);
+    }
+    .reveal table td {
+      padding: 0.5em 0.8em;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      color: var(--text-secondary);
+    }
+    .reveal table tr:hover td { background: rgba(255,255,255,0.02); }
+
+    /* Attack flow */
+    .attack-flow {
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+      font-size: 0.75em;
+      margin: 0.6em 0;
+    }
+    .attack-flow .step {
+      background: rgba(99,102,241,0.1);
+      border: 1px solid rgba(99,102,241,0.3);
+      padding: 0.4em 0.8em;
+      border-radius: 6px;
+      color: var(--accent-light);
+      font-weight: 500;
+    }
+    .attack-flow .arrow { color: var(--text-muted); font-size: 1.2em; }
+
+    /* Agenda item */
+    .agenda-item {
+      display: flex;
+      align-items: center;
+      gap: 1em;
+      padding: 0.6em 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .agenda-item .time {
+      color: var(--accent);
+      font-weight: 600;
+      min-width: 60px;
+      font-size: 0.85em;
+    }
+    .agenda-item .title {
+      color: var(--text-primary);
+      font-weight: 500;
+      font-size: 0.85em;
+    }
+    .agenda-item .desc {
+      color: var(--text-muted);
+      font-size: 0.7em;
+    }
+
+    /* Instructor note indicator */
+    .reveal .speaker-notes-paused { display: none; }
+
+    /* Print / PDF */
+    @media print {
+      .logo { display: none; }
+    }
+
+    /* Fragment custom */
+    .reveal .fragment.highlight-accent.visible { color: var(--accent-light); }
+  </style>
+</head>
+<body>
+
+<img src="assets/logo.svg" alt="Terra新云" class="logo">
+
+<div class="reveal">
+<div class="slides">
+
+<!-- ======================= TITLE ======================= -->
+<section class="title-slide" data-background="linear-gradient(135deg, #0a0a0f 0%, #12121a 50%, #1a1a2e 100%)">
+  <img src="assets/logo.svg" alt="Terra新云" style="height: 48px; margin-bottom: 1.5em;">
+  <h1>Intro to Cybersecurity<br>& AI for FinTech</h1>
+  <div class="subtitle">OpenCode Edition</div>
+  <div style="display: flex; justify-content: center; gap: 2em; margin-bottom: 1.5em;">
+    <div class="stat" style="min-width: 120px;">
+      <span class="number">2.5h</span>
+      <span class="label">Duration</span>
+    </div>
+    <div class="stat" style="min-width: 120px;">
+      <span class="number">5</span>
+      <span class="label">Modules</span>
+    </div>
+    <div class="stat" style="min-width: 120px;">
+      <span class="number">6</span>
+      <span class="label">Live Exploits</span>
+    </div>
+  </div>
+  <div class="meta">Hands-on Lab &bull; AI-Guided &bull; Singapore Context</div>
+  <aside class="notes">
+    Welcome everyone. This is a hands-on, AI-guided introduction to cybersecurity.
+    Students will use OpenCode (free, open-source AI agent) — no API keys needed.
+    By the end, they'll have scanned, exploited, investigated, and assessed a real FinTech app.
+  </aside>
+</section>
+
+<!-- ======================= AGENDA ======================= -->
+<section>
+  <h2>Agenda</h2>
+  <div class="agenda-item">
+    <span class="time">20 min</span>
+    <div><span class="title">Module 01 — Threat Landscape</span><br><span class="desc">CIA triad, common attacks, AI in security, Singapore regulations</span></div>
+  </div>
+  <div class="agenda-item">
+    <span class="time">45 min</span>
+    <div><span class="title">Module 02 — Scan, Discover & Exploit</span><br><span class="desc">nmap, nikto, SQL injection, XSS, IDOR, default credentials</span></div>
+  </div>
+  <div class="agenda-item">
+    <span class="time">30 min</span>
+    <div><span class="title">Module 03 — Incident Response with AI</span><br><span class="desc">SIEM fundamentals, Elasticsearch/Kibana, brute force investigation</span></div>
+  </div>
+  <div class="agenda-item">
+    <span class="time">25 min</span>
+    <div><span class="title">Module 04 — Governance & Compliance</span><br><span class="desc">MAS TRM, PDPA, stakeholder interview, gap analysis</span></div>
+  </div>
+  <div class="agenda-item">
+    <span class="time">20 min</span>
+    <div><span class="title">Module 05 — Wrap-Up & Reflection</span><br><span class="desc">AI limitations, career paths, certifications, next steps</span></div>
+  </div>
+  <aside class="notes">
+    Walk through the agenda. Emphasize this is HANDS-ON — students will be hacking a live app, investigating real logs, and interviewing an AI persona.
+  </aside>
+</section>
+
+<!-- ======================= SCENARIO ======================= -->
+<section>
+  <h2>Your Mission</h2>
+  <div class="highlight-box">
+    <p style="font-size: 0.95em; color: var(--text-primary); margin: 0;">
+      You are a <strong>security consultant</strong> hired to assess <em>VoltPay Digital</em>,<br>
+      a Singapore-based FinTech payment platform.
+    </p>
+  </div>
+  <div class="grid-4" style="margin-top: 1em;">
+    <div class="stat">
+      <span class="number">85</span>
+      <span class="label">Employees</span>
+    </div>
+    <div class="stat">
+      <span class="number">SGD 180M</span>
+      <span class="label">Monthly Volume</span>
+    </div>
+    <div class="stat">
+      <span class="number">2,400</span>
+      <span class="label">Merchants</span>
+    </div>
+    <div class="stat">
+      <span class="number">Q2 2026</span>
+      <span class="label">MAS Inspection</span>
+    </div>
+  </div>
+  <p style="margin-top: 0.8em;">VoltPay needs to pass a <strong>MAS inspection</strong> and earn <strong>CSA Cyber Trust Mark</strong> certification to secure a DBS partnership worth <em>SGD 5–8M/year</em>.</p>
+  <aside class="notes">
+    Set the scene. VoltPay is fictional but realistic — mirrors real SG payment companies.
+    Students are consultants, not just students. This framing drives engagement.
+  </aside>
+</section>
+
+<!-- ======================= LAB ENVIRONMENT ======================= -->
+<section>
+  <h2>Lab Environment</h2>
+  <div style="font-size: 0.75em; font-family: 'Geist Mono', monospace; background: var(--bg-secondary); padding: 1em; border-radius: 10px; border: 1px solid rgba(255,255,255,0.08); line-height: 1.8;">
+    <span style="color: var(--text-muted);">Browser tabs:</span><br>
+    &nbsp;&nbsp;📝 <strong style="color: var(--accent-light);">VS Code</strong> &nbsp;&nbsp;&nbsp; → Course files, code editor &nbsp;&nbsp;&nbsp; <code>/</code><br>
+    &nbsp;&nbsp;🔍 <strong style="color: var(--accent-light);">Kibana</strong> &nbsp;&nbsp;&nbsp;&nbsp; → SIEM dashboard &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <code>/kibana/</code><br>
+    &nbsp;&nbsp;🏦 <strong style="color: var(--accent-light);">VoltPay App</strong> → Vulnerable target &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <code>/app/</code><br>
+    &nbsp;&nbsp;💻 <strong style="color: var(--accent-light);">Terminal</strong> &nbsp;&nbsp;&nbsp; → OpenCode + tools &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <code>/ttyd/</code><br>
+    <br>
+    <span style="color: var(--text-muted);">Services (inside container):</span><br>
+    &nbsp;&nbsp;Elasticsearch 8.x &nbsp; → 10K+ pre-loaded log entries<br>
+    &nbsp;&nbsp;OpenCode CLI &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; → Free AI agent (no API key!)
+  </div>
+  <aside class="notes">
+    Show students how to access the lab. Each service has a path-based URL.
+    OpenCode is free and open-source — no API keys needed. This is a key selling point.
+  </aside>
+</section>
+
+<!-- =================== MODULE 01 DIVIDER =================== -->
+<section class="section-divider" data-background="linear-gradient(135deg, #0a0a0f, #1a1a2e)">
+  <div class="module-num">Module 01</div>
+  <h2>Threat Landscape</h2>
+  <div class="duration">20 minutes</div>
+</section>
+
+<!-- CIA TRIAD -->
+<section>
+  <h2>The CIA Triad</h2>
+  <p>The three pillars of information security — applied to VoltPay:</p>
+  <div class="grid-3">
+    <div class="card">
+      <h3>🔒 Confidentiality</h3>
+      <p>Only authorized people can access data.</p>
+      <p><em>VoltPay:</em> Merchant transaction data, customer PII, API keys must stay private.</p>
+    </div>
+    <div class="card">
+      <h3>🛡️ Integrity</h3>
+      <p>Data hasn't been tampered with.</p>
+      <p><em>VoltPay:</em> Payment amounts, merchant records, audit logs must be accurate.</p>
+    </div>
+    <div class="card">
+      <h3>⚡ Availability</h3>
+      <p>Systems work when needed.</p>
+      <p><em>VoltPay:</em> Payment processing must handle SGD 180M/month without downtime.</p>
+    </div>
+  </div>
+  <aside class="notes">
+    CIA triad is the foundation. Every security decision maps back to these three.
+    Use VoltPay examples to make it concrete. Ask students: "Which is most important for a payment company?"
+  </aside>
+</section>
+
+<!-- COMMON ATTACKS -->
+<section>
+  <h2>4 Common Attacks</h2>
+  <div class="grid-2">
+    <div class="card">
+      <h3>🎣 Phishing</h3>
+      <p>Fake emails/messages that trick users into revealing credentials. <strong>91% of cyberattacks</strong> start with phishing.</p>
+      <p><em>VoltPay risk:</em> CFO receives fake "urgent wire transfer" email from "CEO".</p>
+    </div>
+    <div class="card">
+      <h3>🔐 Ransomware</h3>
+      <p>Malware encrypts all files, demands payment (crypto) for decryption key.</p>
+      <p><em>VoltPay risk:</em> Payment DB encrypted → 2,400 merchants can't process transactions.</p>
+    </div>
+    <div class="card">
+      <h3>🌊 DDoS</h3>
+      <p>Overwhelm servers with traffic so legitimate users can't connect.</p>
+      <p><em>VoltPay risk:</em> Payment gateway down during peak hours → merchant revenue loss.</p>
+    </div>
+    <div class="card">
+      <h3>🎭 Social Engineering</h3>
+      <p>Manipulating people to bypass security. Exploits trust, urgency, authority.</p>
+      <p><em>VoltPay risk:</em> Attacker calls helpdesk pretending to be Kevin (IT Manager).</p>
+    </div>
+  </div>
+  <aside class="notes">
+    Keep it concrete with VoltPay examples.
+    Ask: "Which of these can technology alone prevent?" (None — humans are always the weakest link.)
+  </aside>
+</section>
+
+<!-- AI IN SECURITY -->
+<section>
+  <h2>AI in Cybersecurity</h2>
+  <p>It's a <strong>two-sided arms race</strong>:</p>
+  <div class="grid-2">
+    <div class="card" style="border-color: rgba(220,53,69,0.3);">
+      <h3 style="color: #dc3545;">⚔️ Attackers Use AI</h3>
+      <ul>
+        <li>AI-generated phishing emails (no more typos)</li>
+        <li>Deepfake voice calls ("Hi, this is your CEO...")</li>
+        <li>Automated vulnerability scanning at scale</li>
+        <li>AI-written malware that evades detection</li>
+      </ul>
+    </div>
+    <div class="card" style="border-color: rgba(40,167,69,0.3);">
+      <h3 style="color: #28a745;">🛡️ Defenders Use AI</h3>
+      <ul>
+        <li>Anomaly detection in network traffic</li>
+        <li>Log analysis across millions of events</li>
+        <li>Automated incident response playbooks</li>
+        <li><strong>AI coding assistants</strong> (like today's lab!)</li>
+      </ul>
+    </div>
+  </div>
+  <div class="highlight-box" style="margin-top: 0.5em;">
+    <p style="margin: 0; font-size: 0.85em;">Today you'll use <em>OpenCode</em> — a free, open-source AI agent — as your security co-pilot.</p>
+  </div>
+  <aside class="notes">
+    This is the "why AI" slide. Students should understand AI amplifies both sides.
+    Key message: AI is a tool, not a replacement. You still need to think critically.
+  </aside>
+</section>
+
+<!-- SINGAPORE REGULATIONS -->
+<section>
+  <h2>Singapore Cyber Regulations</h2>
+  <table>
+    <thead>
+      <tr><th>Framework</th><th>Authority</th><th>Applies To</th><th>Key Requirement</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>MAS TRM</strong></td>
+        <td>Monetary Authority of Singapore</td>
+        <td>Banks, payment institutions</td>
+        <td>Technology risk governance, access control, SOC, pen testing</td>
+      </tr>
+      <tr>
+        <td><strong>PDPA</strong></td>
+        <td>PDPC</td>
+        <td>All organisations with personal data</td>
+        <td>Consent, breach notification (3 days), fines up to <em>SGD 1M</em></td>
+      </tr>
+      <tr>
+        <td><strong>CSA</strong></td>
+        <td>Cyber Security Agency</td>
+        <td>Critical infrastructure, voluntary for others</td>
+        <td>Cyber Trust Mark certification</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="highlight-box" style="margin-top: 0.5em;">
+    <p style="margin: 0; font-size: 0.85em;"><strong>VoltPay impact:</strong> Must comply with <em>all three</em> — MAS TRM for payment licence, PDPA for merchant data, CSA Cyber Trust Mark for DBS partnership.</p>
+  </div>
+  <aside class="notes">
+    Singapore is a highly regulated market. VoltPay as a Major Payment Institution is subject to MAS TRM.
+    PDPA applies to everyone. CSA Cyber Trust Mark is voluntary but increasingly required by enterprise partners.
+  </aside>
+</section>
+
+<!-- =================== MODULE 02 DIVIDER =================== -->
+<section class="section-divider" data-background="linear-gradient(135deg, #0a0a0f, #1a1a2e)">
+  <div class="module-num">Module 02</div>
+  <h2>Scan, Discover & Exploit</h2>
+  <div class="duration">45 minutes &bull; 6 Hands-On Exercises</div>
+</section>
+
+<!-- ATTACK METHODOLOGY -->
+<section>
+  <h2>Attack Methodology</h2>
+  <p>Security testing follows a structured approach — same as real penetration testers:</p>
+  <div class="attack-flow" style="justify-content: center; margin: 1em 0;">
+    <div class="step">1. Reconnaissance</div>
+    <span class="arrow">→</span>
+    <div class="step">2. Scanning</div>
+    <span class="arrow">→</span>
+    <div class="step">3. Exploitation</div>
+    <span class="arrow">→</span>
+    <div class="step">4. Post-Exploit</div>
+    <span class="arrow">→</span>
+    <div class="step">5. Reporting</div>
+  </div>
+  <div class="grid-2" style="margin-top: 0.5em;">
+    <div>
+      <h3>Today's Tools</h3>
+      <ul>
+        <li><strong>nmap</strong> — Port scanner (reconnaissance)</li>
+        <li><strong>nikto</strong> — Web vulnerability scanner</li>
+        <li><strong>curl</strong> — HTTP requests (exploitation)</li>
+        <li><strong>Browser</strong> — Manual testing</li>
+        <li><strong>OpenCode</strong> — AI analysis & guidance</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Target</h3>
+      <p>VoltPay Connect — a payment dashboard running on <code>localhost:5000</code></p>
+      <p>Contains <strong>10 intentional vulnerabilities</strong> mapped to OWASP Top 10.</p>
+      <p>Students discover 6 of them through guided exercises.</p>
+    </div>
+  </div>
+  <aside class="notes">
+    Emphasize: this is AUTHORIZED testing on a lab app. Same methodology as professional pen testers.
+    Students should NEVER do this on systems they don't own or have permission to test.
+  </aside>
+</section>
+
+<!-- EXERCISE 1: NMAP -->
+<section>
+  <h2>Exercise 1: Port Scanning</h2>
+  <div class="split">
+    <div class="left">
+      <h3>What is nmap?</h3>
+      <p>Network mapper — discovers which "doors" (ports) are open on a system.</p>
+      <p>Think of ports like apartment doors in an HDB block. Each one leads to a different service.</p>
+      <pre><code class="language-bash">nmap localhost</code></pre>
+      <h3 style="margin-top: 0.8em;">What to Look For</h3>
+      <ul>
+        <li>Port <strong>5000</strong> — Flask/Werkzeug (our target!)</li>
+        <li>Port <strong>5601</strong> — Kibana (SIEM)</li>
+        <li>Port <strong>9200</strong> — Elasticsearch</li>
+        <li>Other open ports = other services</li>
+      </ul>
+    </div>
+    <div class="right">
+      <div class="card" style="font-size: 0.7em;">
+        <h3>Expected Output</h3>
+        <pre><code>PORT     STATE SERVICE
+5000/tcp open  upnp
+5601/tcp open  esmagent
+7681/tcp open  unknown
+8080/tcp open  http-proxy
+8081/tcp open  blackice-icecap
+9200/tcp open  wap-wsp</code></pre>
+      </div>
+      <div class="highlight-box" style="margin-top: 0.5em;">
+        <p style="margin: 0; font-size: 0.75em;">🏆 <strong>Achievement:</strong> Reconnaissance Complete</p>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">
+    Walk through nmap output. Explain what each port means.
+    Key teaching moment: Reconnaissance is legal and common — it's scanning, not attacking.
+    Real pen testers start every engagement this way.
+  </aside>
+</section>
+
+<!-- EXERCISE 2: NIKTO -->
+<section>
+  <h2>Exercise 2: Vulnerability Scanning</h2>
+  <div class="split">
+    <div class="left">
+      <h3>What is nikto?</h3>
+      <p>Automated web scanner — checks for misconfigurations and known vulnerabilities.</p>
+      <pre><code class="language-bash">nikto -h http://localhost:5000</code></pre>
+      <h3 style="margin-top: 0.8em;">Key Findings</h3>
+      <ul>
+        <li><span class="badge badge-high">MISSING</span> <code>X-Content-Type-Options</code></li>
+        <li><span class="badge badge-high">MISSING</span> <code>X-XSS-Protection</code></li>
+        <li><span class="badge badge-high">MISSING</span> <code>X-Frame-Options</code></li>
+      </ul>
+      <p style="margin-top: 0.5em;">Maps to <strong>OWASP A05:2021</strong> — Security Misconfiguration</p>
+    </div>
+    <div class="right">
+      <div class="card">
+        <h3>Why Headers Matter</h3>
+        <table style="font-size: 0.85em;">
+          <tr><td><code>X-Frame-Options</code></td><td>Prevents clickjacking</td></tr>
+          <tr><td><code>X-XSS-Protection</code></td><td>Browser XSS filter</td></tr>
+          <tr><td><code>X-Content-Type</code></td><td>Prevents MIME sniffing</td></tr>
+        </table>
+      </div>
+      <div class="highlight-box" style="margin-top: 0.5em;">
+        <p style="margin: 0; font-size: 0.75em;">🏆 <strong>Achievement:</strong> Inspector General</p>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">
+    nikto is noisy — in real pen tests, it would be detected by a WAF.
+    These missing headers are "low-hanging fruit" that every security audit catches.
+  </aside>
+</section>
+
+<!-- EXERCISE 3: SQL INJECTION -->
+<section>
+  <h2>Exercise 3: SQL Injection</h2>
+  <div class="card" style="border-color: rgba(220,53,69,0.3); margin-bottom: 0.5em;">
+    <h3 style="color: #dc3545;">OWASP A03:2021 — Injection</h3>
+    <p style="margin: 0;">Unsanitized user input inserted directly into database queries.</p>
+  </div>
+  <div class="split">
+    <div class="left">
+      <h3>The Vulnerability</h3>
+      <p>Merchant search endpoint passes input directly to SQL:</p>
+      <pre><code class="language-sql">SELECT * FROM merchants
+WHERE name LIKE '%user_input%'</code></pre>
+      <h3>The Exploit</h3>
+      <pre><code class="language-bash">curl "http://localhost:5000/api/merchants\
+/search?q=' OR '1'='1"</code></pre>
+      <p><strong>Result:</strong> Returns ALL merchants — including hidden internal records.</p>
+    </div>
+    <div class="right">
+      <h3>Impact on VoltPay</h3>
+      <ul>
+        <li><strong>Database extraction</strong> — All merchant data exposed</li>
+        <li><strong>Authentication bypass</strong> — Login without valid credentials</li>
+        <li><strong>Data modification</strong> — Alter payment amounts</li>
+        <li><strong>PDPA violation</strong> — 2,400 merchants' data</li>
+      </ul>
+      <div class="highlight-box">
+        <p style="margin: 0; font-size: 0.75em;">🏆 <strong>Achievement:</strong> SQL Sorcerer<br>
+        🔍 <strong>Hidden flag:</strong> Transaction 521 contains confidential data</p>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">
+    This is the most impactful vulnerability. Walk through the SQL query step by step.
+    Show what ' OR '1'='1 does to the query structure. Key: the database can't tell the difference between code and data.
+    Ask: "How would you fix this?" (Parameterized queries / prepared statements)
+  </aside>
+</section>
+
+<!-- EXERCISE 4: XSS -->
+<section>
+  <h2>Exercise 4: Cross-Site Scripting (XSS)</h2>
+  <div class="split">
+    <div class="left">
+      <h3>What is XSS?</h3>
+      <p>Attacker injects JavaScript that runs in other users' browsers.</p>
+      <pre><code class="language-html">&lt;script&gt;alert('XSS')&lt;/script&gt;</code></pre>
+      <h3>The Exploit</h3>
+      <p>Search parameter reflected without escaping:</p>
+      <pre><code class="language-text">/dashboard?search=
+&lt;script&gt;alert(document.cookie)&lt;/script&gt;</code></pre>
+      <h3>Real-World Impact</h3>
+      <ul>
+        <li>Steal session cookies → account takeover</li>
+        <li>Redirect to phishing page</li>
+        <li>Modify displayed transaction amounts</li>
+      </ul>
+    </div>
+    <div class="right">
+      <div class="card" style="border-color: rgba(220,53,69,0.3);">
+        <h3 style="color: #dc3545;">OWASP A03:2021 — Injection</h3>
+        <p>Same category as SQLi — different injection point (HTML vs SQL).</p>
+      </div>
+      <div class="card">
+        <h3>VoltPay Scenario</h3>
+        <p>Attacker sends merchant a link:</p>
+        <p style="font-size: 0.75em; color: var(--text-muted); word-break: break-all;"><code>voltpay.sg/dashboard?search=&lt;script&gt;steal()&lt;/script&gt;</code></p>
+        <p>Merchant clicks → session stolen → attacker accesses their payment data.</p>
+      </div>
+      <div class="highlight-box">
+        <p style="margin: 0; font-size: 0.75em;">🏆 <strong>Achievement:</strong> Script Kiddie No More</p>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">
+    Demonstrate in browser if possible. Key insight: API endpoints return JSON (safe), HTML pages are vulnerable.
+    Ask: "Why does the API not have this problem?" (JSON is data, HTML is code)
+  </aside>
+</section>
+
+<!-- EXERCISE 5: IDOR -->
+<section>
+  <h2>Exercise 5: IDOR</h2>
+  <div class="card" style="border-color: rgba(220,53,69,0.3); margin-bottom: 0.5em;">
+    <h3 style="color: #dc3545;">OWASP A01:2021 — Broken Access Control</h3>
+    <p style="margin: 0;">#1 on OWASP Top 10. Insecure Direct Object Reference — no authorization check on resource access.</p>
+  </div>
+  <div class="split">
+    <div class="left">
+      <h3>The Vulnerability</h3>
+      <p>Transaction API uses sequential IDs with <strong>no authorization check</strong>:</p>
+      <pre><code class="language-bash"># Logged in as Sarah (merchant_id=2)
+# But can access ANY transaction:
+curl /api/transactions/1    # ✅ Not hers!
+curl /api/transactions/521  # ✅ Confidential!</code></pre>
+    </div>
+    <div class="right">
+      <h3>Business Impact</h3>
+      <ul>
+        <li>Competitor intelligence — see other merchants' revenue</li>
+        <li>Customer data exposure — all transaction details</li>
+        <li>Regulatory violation — unauthorized data access</li>
+      </ul>
+      <div class="highlight-box">
+        <p style="margin: 0; font-size: 0.75em;">🏆 <strong>Achievement:</strong> Access Denied... Not</p>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">
+    IDOR is the #1 vulnerability class. Very common in APIs.
+    The fix is simple: check if the logged-in user owns the requested resource.
+    Ask: "Would encryption fix this?" (No — it's an authorization problem, not a confidentiality one.)
+  </aside>
+</section>
+
+<!-- EXERCISE 6: DEFAULT CREDS -->
+<section>
+  <h2>Exercise 6: Default Credentials</h2>
+  <div class="split">
+    <div class="left">
+      <h3>The Vulnerability</h3>
+      <p>Admin panel accessible with factory-default password:</p>
+      <div class="card" style="text-align: center;">
+        <p style="font-size: 1.2em; margin: 0;"><code>admin</code> / <code>admin123</code></p>
+      </div>
+      <p style="margin-top: 0.5em;"><strong>OWASP A07:2021</strong> — Identification and Authentication Failures</p>
+      <h3 style="margin-top: 0.5em;">Admin Panel Access</h3>
+      <ul>
+        <li>All user accounts and roles</li>
+        <li>All merchant data</li>
+        <li>API keys and secrets</li>
+        <li>Full audit logs</li>
+      </ul>
+    </div>
+    <div class="right">
+      <div class="card" style="border-color: rgba(220,53,69,0.3);">
+        <h3>Game Over</h3>
+        <p>With admin access, an attacker can:</p>
+        <ul>
+          <li>Export entire database</li>
+          <li>Create backdoor accounts</li>
+          <li>Modify transaction records</li>
+          <li>Disable security logging</li>
+        </ul>
+        <p><strong>This is a full system compromise.</strong></p>
+      </div>
+      <div class="highlight-box">
+        <p style="margin: 0; font-size: 0.75em;">🏆 <strong>Achievement:</strong> Master Key</p>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">
+    This is embarrassingly common. Real-world examples: Mirai botnet exploited default credentials on IoT devices.
+    Key point: Kevin reveals in Module 04 that admin/admin123 is known to ALL developers.
+  </aside>
+</section>
+
+<!-- OWASP SUMMARY -->
+<section>
+  <h2>OWASP Top 10 — What We Found</h2>
+  <table>
+    <thead>
+      <tr><th>Exercise</th><th>Vulnerability</th><th>OWASP Category</th><th>Severity</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1. nmap</td><td>Open ports/services</td><td>Reconnaissance</td><td><span class="badge badge-medium">INFO</span></td></tr>
+      <tr><td>2. nikto</td><td>Missing security headers</td><td>A05 — Security Misconfiguration</td><td><span class="badge badge-high">MEDIUM</span></td></tr>
+      <tr><td>3. SQLi</td><td>SQL injection</td><td>A03 — Injection</td><td><span class="badge badge-critical">CRITICAL</span></td></tr>
+      <tr><td>4. XSS</td><td>Cross-site scripting</td><td>A03 — Injection</td><td><span class="badge badge-critical">HIGH</span></td></tr>
+      <tr><td>5. IDOR</td><td>Broken access control</td><td>A01 — Broken Access Control</td><td><span class="badge badge-critical">CRITICAL</span></td></tr>
+      <tr><td>6. Creds</td><td>Default admin password</td><td>A07 — Auth Failures</td><td><span class="badge badge-critical">CRITICAL</span></td></tr>
+    </tbody>
+  </table>
+  <div class="highlight-box" style="margin-top: 0.5em;">
+    <p style="margin: 0; font-size: 0.85em;">If VoltPay were real, this would fail <em>any</em> MAS inspection. The app has <strong>3 critical findings</strong> — any one of them could lead to a data breach.</p>
+  </div>
+  <aside class="notes">
+    Recap slide. Ask students: "Which vulnerability would you fix FIRST?" (Default creds — easiest to fix, highest impact.)
+    Point out: These are the same OWASP categories used by professional auditors worldwide.
+  </aside>
+</section>
+
+<!-- DARK WEB -->
+<section>
+  <h2>What's This Data Worth?</h2>
+  <p style="font-size: 0.85em;">On the dark web, stolen FinTech data commands premium prices:</p>
+  <div class="grid-2" style="margin-top: 0.5em;">
+    <div>
+      <table>
+        <thead><tr><th>Data Type</th><th>Dark Web Price</th></tr></thead>
+        <tbody>
+          <tr><td>Credit card + CVV</td><td>USD 5–35</td></tr>
+          <tr><td>Bank login credentials</td><td>USD 50–200</td></tr>
+          <tr><td>Full identity (Fullz)</td><td>USD 30–100</td></tr>
+          <tr><td>Corporate DB dump</td><td>USD 1,000–10,000+</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card" style="border-color: rgba(220,53,69,0.3);">
+      <h3 style="color: #dc3545;">VoltPay Breach Impact</h3>
+      <ul>
+        <li><strong>MAS fines</strong> + licence conditions</li>
+        <li><strong>PDPA fines</strong> up to SGD 1M</li>
+        <li><strong>Merchant trust</strong> = lost revenue</li>
+        <li><strong>DBS partnership</strong> = cancelled</li>
+        <li><strong>Breach notification</strong> costs</li>
+      </ul>
+      <p style="font-size: 0.8em; color: var(--warning);">Singapore data commands premium due to higher account balances.</p>
+    </div>
+  </div>
+  <aside class="notes">
+    This makes the impact real and tangible. Students often don't realize stolen data has actual market value.
+    Singapore data is premium because of higher average account balances and purchasing power.
+  </aside>
+</section>
+
+<!-- =================== MODULE 03 DIVIDER =================== -->
+<section class="section-divider" data-background="linear-gradient(135deg, #0a0a0f, #1a1a2e)">
+  <div class="module-num">Module 03</div>
+  <h2>Incident Response with AI</h2>
+  <div class="duration">30 minutes &bull; SIEM Investigation</div>
+</section>
+
+<!-- NIST IR -->
+<section>
+  <h2>NIST Incident Response Lifecycle</h2>
+  <div class="attack-flow" style="justify-content: center; margin: 1em 0;">
+    <div class="step" style="background: rgba(40,167,69,0.15); border-color: rgba(40,167,69,0.3); color: #28a745;">1. Preparation</div>
+    <span class="arrow">→</span>
+    <div class="step" style="background: rgba(99,102,241,0.15); border-color: rgba(99,102,241,0.3);">2. Detection<br>& Analysis</div>
+    <span class="arrow">→</span>
+    <div class="step" style="background: rgba(255,193,7,0.15); border-color: rgba(255,193,7,0.3); color: #ffc107;">3. Containment</div>
+    <span class="arrow">→</span>
+    <div class="step" style="background: rgba(220,53,69,0.15); border-color: rgba(220,53,69,0.3); color: #dc3545;">4. Post-Incident</div>
+  </div>
+  <div class="grid-2">
+    <div class="card">
+      <h3>What is a SIEM?</h3>
+      <p><strong>Security Information and Event Management</strong> — the command center of any Security Operations Center (SOC).</p>
+      <p>Collects logs from every system, normalizes them, and enables search + correlation.</p>
+    </div>
+    <div class="card">
+      <h3>Our SIEM Stack</h3>
+      <ul>
+        <li><strong>Elasticsearch</strong> — stores & searches logs</li>
+        <li><strong>Kibana</strong> — visualizes & explores data</li>
+        <li><strong>10K+ log entries</strong> across 5 indices</li>
+        <li>Pre-loaded attack scenario embedded in noise</li>
+      </ul>
+    </div>
+  </div>
+  <aside class="notes">
+    Real SOCs use Splunk, Microsoft Sentinel, or ELK (Elasticsearch/Logstash/Kibana).
+    We're using the same ELK stack that many companies use in production.
+  </aside>
+</section>
+
+<!-- SIEM DATA -->
+<section>
+  <h2>Log Sources</h2>
+  <table>
+    <thead><tr><th>Index</th><th>Source</th><th>Contains</th></tr></thead>
+    <tbody>
+      <tr><td><code>logs-auth</code></td><td>Authentication</td><td>Login successes/failures, usernames, source IPs</td></tr>
+      <tr><td><code>logs-firewall</code></td><td>Network</td><td>Connection logs, source/dest IPs, ports, actions</td></tr>
+      <tr><td><code>logs-dns</code></td><td>DNS</td><td>Domain queries, query types, response codes</td></tr>
+      <tr><td><code>logs-sysmon</code></td><td>Process</td><td>Process creation, command lines, parent processes</td></tr>
+      <tr><td><code>logs-web</code></td><td>HTTP</td><td>Web requests, status codes, user agents, paths</td></tr>
+    </tbody>
+  </table>
+  <div class="highlight-box" style="margin-top: 0.5em;">
+    <p style="margin: 0; font-size: 0.85em;"><strong>Scenario:</strong> VoltPay's SIEM captured logs from a single day. Somewhere in these 10,000 entries is evidence of a <em>brute force attack</em>. Your job: find it.</p>
+  </div>
+  <aside class="notes">
+    This mirrors real SOC work. Analysts sift through thousands of events looking for the signal in the noise.
+    The brute force attack is the primary scenario — there are also DNS tunneling and ransomware traces for advanced students.
+  </aside>
+</section>
+
+<!-- INVESTIGATION STEPS -->
+<section>
+  <h2>Investigation: Brute Force Attack</h2>
+  <p>Students query Elasticsearch step by step, guided by AI:</p>
+  <div style="font-size: 0.8em;">
+    <div class="agenda-item">
+      <span class="time">Step 1</span>
+      <div><span class="title">Overview</span><br><span class="desc">Count auth successes vs failures → huge ratio of failures = something is wrong</span></div>
+    </div>
+    <div class="agenda-item">
+      <span class="time">Step 2</span>
+      <div><span class="title">Find Top Offenders</span><br><span class="desc">Aggregate by source IP → one IP has hundreds of failed attempts</span></div>
+    </div>
+    <div class="agenda-item">
+      <span class="time">Step 3</span>
+      <div><span class="title">Identify Targets</span><br><span class="desc">Which usernames were targeted? Credential stuffing or targeted attack?</span></div>
+    </div>
+    <div class="agenda-item">
+      <span class="time">Step 4</span>
+      <div><span class="title">Check for Success</span><br><span class="desc">Did the attacker eventually get in? Search for successful login from attacker IP</span></div>
+    </div>
+    <div class="agenda-item">
+      <span class="time">Step 5</span>
+      <div><span class="title">Cross-Reference</span><br><span class="desc">Check firewall/DNS logs for the same IP → what else did they do post-compromise?</span></div>
+    </div>
+    <div class="agenda-item">
+      <span class="time">Step 6</span>
+      <div><span class="title">AI Synthesis</span><br><span class="desc">Build attack timeline, extract IOCs, map to MITRE ATT&CK T1110</span></div>
+    </div>
+  </div>
+  <aside class="notes">
+    This is the most analytical module. Guide students through each query.
+    Key teaching moment: the value of CORRELATION — looking at the same event from multiple data sources.
+    MITRE ATT&CK T1110 = Brute Force technique.
+  </aside>
+</section>
+
+<!-- IR REPORT -->
+<section>
+  <h2>Incident Response Report</h2>
+  <p>Students draft a professional IR report with AI assistance:</p>
+  <div class="grid-2">
+    <div>
+      <div class="card">
+        <h3>Report Sections</h3>
+        <ol style="font-size: 0.85em;">
+          <li><strong>Executive Summary</strong> — 3 sentences for the CEO</li>
+          <li><strong>Timeline</strong> — chronological attack events</li>
+          <li><strong>IOCs</strong> — attacker IP, usernames, timestamps</li>
+          <li><strong>Root Cause</strong> — why it happened</li>
+          <li><strong>Impact Assessment</strong> — what was compromised</li>
+          <li><strong>Recommendations</strong> — immediate + long-term</li>
+          <li><strong>Lessons Learned</strong> — prevent recurrence</li>
+        </ol>
+      </div>
+    </div>
+    <div>
+      <div class="card" style="border-color: rgba(99,102,241,0.3);">
+        <h3>Key IOCs to Extract</h3>
+        <ul>
+          <li>Attacker IP address(es)</li>
+          <li>Targeted usernames</li>
+          <li>Successful compromise timestamp</li>
+          <li>Post-compromise activities</li>
+          <li>MITRE ATT&CK: <code>T1110</code></li>
+        </ul>
+      </div>
+      <div class="highlight-box">
+        <p style="margin: 0; font-size: 0.75em;">🏆 <strong>Achievements:</strong> Digital Detective + Report Writer</p>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">
+    The IR report template is provided. AI helps structure and fill in the content.
+    Key teaching: writing for the audience — the Executive Summary is for the CEO, the IOCs are for the SOC team.
+    This is a real skill used by incident responders every day.
+  </aside>
+</section>
+
+<!-- =================== MODULE 04 DIVIDER =================== -->
+<section class="section-divider" data-background="linear-gradient(135deg, #0a0a0f, #1a1a2e)">
+  <div class="module-num">Module 04</div>
+  <h2>Governance & Compliance</h2>
+  <div class="duration">25 minutes &bull; Stakeholder Interview</div>
+</section>
+
+<!-- GOVERNANCE INTRO -->
+<section>
+  <h2>What is IT Governance?</h2>
+  <div class="highlight-box">
+    <p style="margin: 0; font-size: 0.95em;">Think of it like <strong>building codes for technology</strong> — just as HDB has safety requirements for buildings, MAS has security requirements for payment systems.</p>
+  </div>
+  <div class="grid-3" style="margin-top: 1em;">
+    <div class="card">
+      <h3>MAS TRM</h3>
+      <p>Technology Risk Management guidelines for financial institutions.</p>
+      <p style="font-size: 0.75em;">Key sections: Board governance (§3), Secure development (§6), Access control (§9), Data security (§11), Cyber ops (§12), Vulnerability mgmt (§13)</p>
+    </div>
+    <div class="card">
+      <h3>PDPA</h3>
+      <p>Personal Data Protection Act — consent, purpose limitation.</p>
+      <p style="font-size: 0.75em;">Breach notification within <strong>3 days</strong>. Fines up to <strong>SGD 1M</strong> or 10% annual turnover.</p>
+    </div>
+    <div class="card">
+      <h3>CSA Cyber Trust</h3>
+      <p>Voluntary certification mark from Cyber Security Agency.</p>
+      <p style="font-size: 0.75em;">Required by DBS for the <strong>SGD 5-8M/year</strong> partnership.</p>
+    </div>
+  </div>
+  <aside class="notes">
+    Governance isn't sexy but it's essential. Without compliance, VoltPay can't operate.
+    Singapore's regulatory environment is one of the strictest in APAC — and that's a feature, not a bug.
+  </aside>
+</section>
+
+<!-- KEVIN INTERVIEW -->
+<section>
+  <h2>Meet Kevin Tan</h2>
+  <div class="split">
+    <div class="left">
+      <div class="card">
+        <h3>IT Manager, VoltPay Digital</h3>
+        <ul>
+          <li>34 years old, NTU Computer Engineering</li>
+          <li>5 years at Singtel NOC before VoltPay</li>
+          <li>Built entire IT infrastructure from scratch</li>
+          <li>1 junior sysadmin (started 6 months ago)</li>
+          <li>Manages 85 endpoints + network + physical</li>
+        </ul>
+        <p style="margin-top: 0.5em;"><em>"Aiyoh, you think I don't know meh? I raised this before but nobody listen..."</em></p>
+      </div>
+    </div>
+    <div class="right">
+      <h3>Interview Exercise</h3>
+      <p>Students load the <strong>kevin-tan</strong> AI skill and conduct a stakeholder interview.</p>
+      <p><strong>Key topics:</strong></p>
+      <ul>
+        <li>Endpoint management</li>
+        <li>Network segmentation</li>
+        <li>Employee offboarding</li>
+        <li>Physical security</li>
+        <li>Password practices</li>
+      </ul>
+      <div class="highlight-box" style="margin-top: 0.5em;">
+        <p style="margin: 0; font-size: 0.75em;"><strong>Tip:</strong> Kevin gives <em>surface answers</em> first. Dig deeper with specific follow-ups to uncover the real issues!</p>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">
+    Kevin is played by AI with a distinct Singlish personality. He's helpful but reveals problems gradually.
+    Students must ask good questions — generic questions get generic answers.
+    This teaches a critical soft skill: stakeholder interviewing.
+  </aside>
+</section>
+
+<!-- HIDDEN FINDINGS -->
+<section>
+  <h2>What Kevin Reveals</h2>
+  <p>Surface answers sound fine — dig deeper to find the real issues:</p>
+  <table>
+    <thead><tr><th>Topic</th><th>Surface Answer</th><th>Reality (After Probing)</th><th>MAS TRM</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>Endpoints</td>
+        <td>"85 machines, Intune, Defender"</td>
+        <td>12 Win10 EOL, 60/85 Intune, 847 unreviewed alerts</td>
+        <td>§ 11</td>
+      </tr>
+      <tr>
+        <td>Network</td>
+        <td>"Separate guest/corp WiFi"</td>
+        <td>Same VLAN, AWS SSH open to 0.0.0.0/0</td>
+        <td>§ 11</td>
+      </tr>
+      <tr>
+        <td>Offboarding</td>
+        <td>"HR notifies, AD disabled"</td>
+        <td>Checklist in Kevin's head, ex-employees on GitHub</td>
+        <td>§ 9</td>
+      </tr>
+      <tr>
+        <td>Physical</td>
+        <td>"Card access, locked server room"</td>
+        <td>Key duplicated 5x, no camera, no temp monitoring</td>
+        <td>§ 11</td>
+      </tr>
+      <tr>
+        <td>Passwords</td>
+        <td>"Individual accounts"</td>
+        <td>AWS root in Google Doc, admin123 shared</td>
+        <td>§ 9</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="highlight-box" style="margin-top: 0.3em;">
+    <p style="margin: 0; font-size: 0.75em;">🏆 <strong>Achievement:</strong> Governance Guru — Find 3+ gaps and map them to MAS TRM sections</p>
+  </div>
+  <aside class="notes">
+    This is the reveal slide — use AFTER students have done their interview.
+    Key teaching: in real assessments, people rarely volunteer their problems. You have to ask the right questions.
+    The AWS root password in a Google Doc is unfortunately very common in startups.
+  </aside>
+</section>
+
+<!-- GAP ANALYSIS -->
+<section>
+  <h2>Gap Analysis</h2>
+  <p>Students map interview findings to MAS TRM requirements:</p>
+  <div class="card">
+    <table>
+      <thead><tr><th>Finding</th><th>MAS TRM Section</th><th>Risk</th><th>Business Impact</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>AWS root password in Google Doc</td>
+          <td>§ 9 Access Control</td>
+          <td><span class="badge badge-critical">CRITICAL</span></td>
+          <td>Full cloud compromise → SGD 1M+ exposure</td>
+        </tr>
+        <tr>
+          <td>No network segmentation</td>
+          <td>§ 11 Data & Infrastructure</td>
+          <td><span class="badge badge-critical">CRITICAL</span></td>
+          <td>Lateral movement → payment data breach</td>
+        </tr>
+        <tr>
+          <td>No offboarding process</td>
+          <td>§ 9 Access Control</td>
+          <td><span class="badge badge-critical">HIGH</span></td>
+          <td>Ex-employee access → data theft, sabotage</td>
+        </tr>
+        <tr>
+          <td>12 EOL endpoints</td>
+          <td>§ 11 Data & Infrastructure</td>
+          <td><span class="badge badge-high">HIGH</span></td>
+          <td>Unpatched vulns → malware entry point</td>
+        </tr>
+        <tr>
+          <td>No server room monitoring</td>
+          <td>§ 11 Data & Infrastructure</td>
+          <td><span class="badge badge-medium">MEDIUM</span></td>
+          <td>AC failure → hardware damage, downtime</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <aside class="notes">
+    Students use the gap-analysis-template.md to structure their findings.
+    Key skill: translating technical findings into business language and regulatory context.
+    This is what GRC (Governance, Risk, Compliance) professionals do every day.
+  </aside>
+</section>
+
+<!-- =================== MODULE 05 DIVIDER =================== -->
+<section class="section-divider" data-background="linear-gradient(135deg, #0a0a0f, #1a1a2e)">
+  <div class="module-num">Module 05</div>
+  <h2>Wrap-Up & Reflection</h2>
+  <div class="duration">20 minutes</div>
+</section>
+
+<!-- WHAT WE COVERED -->
+<section>
+  <h2>What We Covered</h2>
+  <div class="grid-2">
+    <div>
+      <div class="card" style="border-left: 3px solid var(--accent);">
+        <h3>Offensive Security</h3>
+        <ul>
+          <li>Port scanning with <strong>nmap</strong></li>
+          <li>Vulnerability scanning with <strong>nikto</strong></li>
+          <li><strong>SQL injection</strong> — database extraction</li>
+          <li><strong>XSS</strong> — session hijacking</li>
+          <li><strong>IDOR</strong> — broken access control</li>
+          <li><strong>Default credentials</strong> — admin takeover</li>
+        </ul>
+      </div>
+      <div class="card" style="border-left: 3px solid #28a745;">
+        <h3>Defensive Security</h3>
+        <ul>
+          <li><strong>SIEM</strong> (Elasticsearch + Kibana)</li>
+          <li>Brute force <strong>investigation</strong></li>
+          <li><strong>IOC extraction</strong> and correlation</li>
+          <li>NIST <strong>Incident Response</strong> framework</li>
+          <li><strong>IR report</strong> writing</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="card" style="border-left: 3px solid #ffc107;">
+        <h3>Governance</h3>
+        <ul>
+          <li><strong>MAS TRM</strong> requirements</li>
+          <li><strong>PDPA</strong> obligations</li>
+          <li><strong>Stakeholder interview</strong> techniques</li>
+          <li><strong>Gap analysis</strong> mapping</li>
+          <li>Business impact in <strong>SGD</strong></li>
+        </ul>
+      </div>
+      <div class="card" style="border-left: 3px solid #d946ef;">
+        <h3>AI as Co-Pilot</h3>
+        <ul>
+          <li>AI for <strong>concept explanation</strong></li>
+          <li>AI for <strong>tool output analysis</strong></li>
+          <li>AI for <strong>report drafting</strong></li>
+          <li>AI for <strong>stakeholder simulation</strong></li>
+          <li>AI <strong>limitations</strong> awareness</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">
+    Quick recap — students covered offense, defense, governance, and AI in 2.5 hours.
+    Ask: "Which module was your favourite? Which was hardest?"
+  </aside>
+</section>
+
+<!-- AI LIMITATIONS -->
+<section>
+  <h2>AI: Strengths & Limitations</h2>
+  <div class="grid-2">
+    <div class="card" style="border-color: rgba(40,167,69,0.3);">
+      <h3 style="color: #28a745;">What AI Does Well</h3>
+      <ul>
+        <li>Explains complex concepts in plain language</li>
+        <li>Analyzes tool output quickly</li>
+        <li>Maps findings to frameworks (OWASP, MITRE)</li>
+        <li>Drafts reports and documentation</li>
+        <li>Suggests next investigative steps</li>
+        <li>Simulates personas for practice</li>
+      </ul>
+    </div>
+    <div class="card" style="border-color: rgba(220,53,69,0.3);">
+      <h3 style="color: #dc3545;">Where AI Falls Short</h3>
+      <ul>
+        <li><strong>Hallucination</strong> — can fabricate facts confidently</li>
+        <li><strong>No real-time verification</strong> — can't check if systems are actually patched</li>
+        <li><strong>Over-confidence</strong> — rarely says "I don't know"</li>
+        <li><strong>Context limits</strong> — loses track in long sessions</li>
+        <li><strong>Lacks judgment</strong> — can't weigh business trade-offs</li>
+        <li><strong>No accountability</strong> — you sign the report, not the AI</li>
+      </ul>
+    </div>
+  </div>
+  <div class="highlight-box" style="margin-top: 0.3em;">
+    <p style="margin: 0; font-size: 0.9em; text-align: center;"><strong>AI is a force multiplier, not a replacement for thinking.</strong></p>
+  </div>
+  <aside class="notes">
+    Critical slide. Students must understand AI limitations BEFORE they rely on it professionally.
+    Key message: The person using the AI is still responsible for the output.
+    "You sign the report, not the AI" — this is the most important takeaway.
+  </aside>
+</section>
+
+<!-- CAREER PATHS -->
+<section>
+  <h2>Career Paths in Cybersecurity</h2>
+  <div class="grid-2">
+    <div>
+      <h3>Entry-Level Roles</h3>
+      <div class="card">
+        <p><strong>SOC Analyst</strong> — Monitor alerts, investigate incidents</p>
+        <p style="font-size: 0.7em; color: var(--text-muted);">Today's Module 03 skills</p>
+      </div>
+      <div class="card">
+        <p><strong>GRC Analyst</strong> — Compliance, audits, risk assessment</p>
+        <p style="font-size: 0.7em; color: var(--text-muted);">Today's Module 04 skills</p>
+      </div>
+      <h3 style="margin-top: 0.5em;">Intermediate Roles</h3>
+      <div class="card">
+        <p><strong>Penetration Tester</strong> — Authorized hacking</p>
+        <p style="font-size: 0.7em; color: var(--text-muted);">Today's Module 02 skills</p>
+      </div>
+      <div class="card">
+        <p><strong>Cloud Security Engineer</strong> — AWS/Azure hardening</p>
+      </div>
+    </div>
+    <div>
+      <h3>Certifications</h3>
+      <table>
+        <thead><tr><th>Level</th><th>Cert</th></tr></thead>
+        <tbody>
+          <tr><td>Entry</td><td>CompTIA Security+</td></tr>
+          <tr><td>Intermediate</td><td>CEH, CREST</td></tr>
+          <tr><td>Advanced</td><td>OSCP, CISSP</td></tr>
+        </tbody>
+      </table>
+      <h3 style="margin-top: 0.8em;">Singapore Resources</h3>
+      <ul>
+        <li><strong>CSA SG Cyber Talent</strong> — training + jobs</li>
+        <li><strong>SG Cyber Youth</strong> — younger learners</li>
+        <li><strong>DSTA CTF</strong> — competitions</li>
+        <li><strong>NUS Greyhats</strong> — university club</li>
+      </ul>
+    </div>
+  </div>
+  <aside class="notes">
+    Connect today's exercises to real career paths. Each module maps to actual job roles.
+    Singapore has strong government support for cybersecurity talent development.
+  </aside>
+</section>
+
+<!-- ACHIEVEMENTS -->
+<section>
+  <h2>Achievement Badges</h2>
+  <div class="grid-4">
+    <div class="stat" style="padding: 0.6em;">
+      <span class="number" style="font-size: 1.5em;">🩸</span>
+      <span class="label">First Blood</span>
+    </div>
+    <div class="stat" style="padding: 0.6em;">
+      <span class="number" style="font-size: 1.5em;">💉</span>
+      <span class="label">SQL Sorcerer</span>
+    </div>
+    <div class="stat" style="padding: 0.6em;">
+      <span class="number" style="font-size: 1.5em;">📜</span>
+      <span class="label">Script Kiddie<br>No More</span>
+    </div>
+    <div class="stat" style="padding: 0.6em;">
+      <span class="number" style="font-size: 1.5em;">🔑</span>
+      <span class="label">Master Key</span>
+    </div>
+    <div class="stat" style="padding: 0.6em;">
+      <span class="number" style="font-size: 1.5em;">🔍</span>
+      <span class="label">Digital<br>Detective</span>
+    </div>
+    <div class="stat" style="padding: 0.6em;">
+      <span class="number" style="font-size: 1.5em;">📝</span>
+      <span class="label">Report Writer</span>
+    </div>
+    <div class="stat" style="padding: 0.6em;">
+      <span class="number" style="font-size: 1.5em;">⚖️</span>
+      <span class="label">Governance<br>Guru</span>
+    </div>
+    <div class="stat" style="padding: 0.6em;">
+      <span class="number" style="font-size: 1.5em;">🛡️</span>
+      <span class="label">Full Stack<br>Defender</span>
+    </div>
+  </div>
+  <div style="text-align: center; margin-top: 1em;">
+    <p style="font-size: 0.85em;">
+      <strong>1–3 badges</strong> = Great start &nbsp;&bull;&nbsp;
+      <strong>4–5 badges</strong> = Strong foundation &nbsp;&bull;&nbsp;
+      <strong>6–8 badges</strong> = Outstanding
+    </p>
+  </div>
+  <aside class="notes">
+    Review which achievements students earned. Celebrate their progress.
+    "Full Stack Defender" requires completing all 5 modules.
+  </aside>
+</section>
+
+<!-- NEXT STEPS -->
+<section>
+  <h2>Keep Learning</h2>
+  <div class="grid-2">
+    <div>
+      <h3>Practice Platforms</h3>
+      <ul>
+        <li><strong>TryHackMe</strong> — Guided learning paths</li>
+        <li><strong>HackTheBox</strong> — CTF-style challenges</li>
+        <li><strong>PicoCTF</strong> — Beginner-friendly CTFs</li>
+        <li><strong>PortSwigger Academy</strong> — Web security deep dive</li>
+      </ul>
+      <h3 style="margin-top: 0.5em;">Deep Dives</h3>
+      <ul>
+        <li>OWASP WebGoat — Practice app with lessons</li>
+        <li>MAS TRM full guidelines (mas.gov.sg)</li>
+        <li>NIST CSF framework</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Terra新云 Advanced Labs</h3>
+      <div class="card">
+        <ul>
+          <li><strong>Incident Response with Claude</strong> — Deep SIEM investigation</li>
+          <li><strong>Red Teaming with Claude</strong> — Active Directory attacks</li>
+          <li><strong>EDR with OpenCode</strong> — Build your own endpoint detection</li>
+        </ul>
+        <p style="margin-top: 0.5em; font-size: 0.8em; color: var(--accent-light);">Available at terraxinyun.com/dashboard</p>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">
+    Point students to next steps. TryHackMe is the best starting point for beginners.
+    Mention the advanced Terra新云 labs for those who want to continue.
+  </aside>
+</section>
+
+<!-- CLOSING -->
+<section class="title-slide" data-background="linear-gradient(135deg, #0a0a0f 0%, #12121a 50%, #1a1a2e 100%)">
+  <img src="assets/logo.svg" alt="Terra新云" style="height: 48px; margin-bottom: 1em;">
+  <h1>Thank You</h1>
+  <div class="subtitle">You're now a cybersecurity defender.</div>
+  <div style="display: flex; justify-content: center; gap: 2em; margin: 1.5em 0;">
+    <div>
+      <p style="color: var(--text-muted); font-size: 0.6em;">Website</p>
+      <p style="font-size: 0.8em;"><a href="https://terraxinyun.com">terraxinyun.com</a></p>
+    </div>
+    <div>
+      <p style="color: var(--text-muted); font-size: 0.6em;">Email</p>
+      <p style="font-size: 0.8em;"><a href="mailto:josh@terraxinyun.com">josh@terraxinyun.com</a></p>
+    </div>
+  </div>
+  <div class="meta">Intro to Cybersecurity & AI for FinTech &bull; OpenCode Edition</div>
+  <aside class="notes">
+    Thank everyone for their time and engagement.
+    Remind them: what they learned today is real — these are the same tools and techniques used by professionals.
+  </aside>
+</section>
+
+</div><!-- /slides -->
+</div><!-- /reveal -->
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/highlight.js"></script>
+<script>
+  Reveal.initialize({
+    hash: true,
+    slideNumber: 'c/t',
+    showSlideNumber: 'all',
+    transition: 'fade',
+    transitionSpeed: 'fast',
+    backgroundTransition: 'fade',
+    center: false,
+    width: 1280,
+    height: 720,
+    margin: 0,
+    plugins: [RevealNotes, RevealHighlight],
+    // Keyboard shortcuts
+    keyboard: {
+      // 'S' opens speaker notes
+    }
+  });
+</script>
+
+</body>
+</html>
